@@ -47,16 +47,16 @@ class People(db.Model):
     hair_color=db.Column(db.String(120), unique=True, nullable=False)
     favorites= db.relationship("Favorites")
 
-    def __init__(self):
-      self.id= id
-      self.name= name
-      self.birth_date = birth_date
-      self.description= description
-      self.planet_id =  planet_id
-      self.eye_color= eye_color
-      self.hair_color=hair_color
+    def __init__(self, name, birth_date, description, planet_id, eye_color, hair_color):
+        self.id= id
+        self.name= name
+        self.birth_date = birth_date
+        self.description= description
+        self.planet_id =  planet_id
+        self.eye_color= eye_color
+        self.hair_color= hair_color
 
-      def serialize(self):
+    def serialize(self):
         return{
             "id": self.id,
             "name":self.name,
@@ -66,7 +66,6 @@ class People(db.Model):
             "eye_color":self.eye_color,
             "hair_color":self.hair_color,
         }
-
 
 class Planet(db.Model):
     id= db.Column(db.Integer,primary_key=True)
