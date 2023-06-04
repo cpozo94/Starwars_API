@@ -179,9 +179,8 @@ def create_people():
     new_people = People(data['name'], data['birth_date'], data['description'], data['planet_id'], data['eye_color'], data['hair_color'])
     db.session.add(new_people)
     db.session.commit()
-    all_people = People.query.all()
-    serialize_all_people = list(map(lambda people: people.serialize(), all_people))
-    return jsonify(serialize_all_people), 200
+    return jsonify(new_people.serialize()), 201
+
 
 
 @app.route('/planets', methods=['POST'])

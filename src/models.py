@@ -48,7 +48,6 @@ class People(db.Model):
     favorites= db.relationship("Favorites")
 
     def __init__(self, name, birth_date, description, planet_id, eye_color, hair_color):
-        self.id= id
         self.name= name
         self.birth_date = birth_date
         self.description= description
