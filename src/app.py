@@ -184,6 +184,20 @@ def create_people():
     return jsonify(serialize_all_people), 200
 
 
+@app.route('/planets', methods=['POST'])
+def create_planet():
+    data = request.get_json()
+    new_planet = Planet(
+        name=data['name'],
+        description=data['description'],
+        population=data['population'],
+        terrain=data['terrain'],
+        climate=data['climate']
+    )
+    db.session.add(new_planet)
+    db.session.commit()
+    return jsonify(new_planet.serialize()), 201
+
 
 
 

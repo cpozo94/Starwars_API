@@ -78,26 +78,25 @@ class Planet(db.Model):
     favorites= db.relationship("Favorites")
     
 
-    def __init__(self):
+    def __init__(self, name,description,population,terrain,climate):
 
-     self.id= id
      self.name= name
      self.description=description
      self.population=population
      self.terrain=terrain
      self.climate=climate
-     self.people_id= people_id
+    
 
     def serialize(self):
         return {
-          "id": self.id,
-          "name":self.name,
-          "descirption":self.description,
-          "population":self.population,
-          "terrain": self.terrain,
-          "climate":self.climate,
-          "people_id":self.people_id
-
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "population": self.population,
+            "terrain": self.terrain,
+            "climate": self.climate,
+            "people": [person.serialize() for person in self.people],
+            "favorites": [favorite.serialize() for favorite in self.favorites]
         }
 
 
