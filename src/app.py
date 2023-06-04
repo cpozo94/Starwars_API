@@ -173,6 +173,7 @@ def delete_favorite_people(people_id):
 
 
 
+#create People
 @app.route('/people', methods=['POST'])
 def create_people():
     data = request.get_json()
@@ -182,7 +183,7 @@ def create_people():
     return jsonify(new_people.serialize()), 201
 
 
-
+#create planet
 @app.route('/planets', methods=['POST'])
 def create_planet():
     data = request.get_json()
@@ -197,6 +198,22 @@ def create_planet():
     db.session.commit()
     return jsonify(new_planet.serialize()), 201
 
+
+#update planet
+
+@app.route('/planets/<int:planet_id>', methods=['PUT'])
+def update_planet(planet_id):
+    data = request.get_json()
+    planet = Planet.query.get(planet_id)
+    if not planet:
+        abort(404, f"Planet with ID {planet_id} not found.")
+    planet.name = data.get('name', planet.name)
+    planet.description = data.get('description', planet.description)
+    planet.name = data.get('population', planet.population)
+    planet.description = data.get('terrain', planet.terrain)
+    planet.description = data.get('climate', planet.climate)
+    db.session.commit()
+    return jsonify(planet.serialize()), 200
 
 
 
