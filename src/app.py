@@ -183,6 +183,36 @@ def create_people():
     return jsonify(new_people.serialize()), 201
 
 
+# Update people
+@app.route('/people/<int:people_id>', methods=['PUT'])
+def update_people(people_id):
+    data = request.get_json()
+    person = People.query.get(people_id)
+    if not person:
+        raise APIException('Person not found', status_code=404)
+    person.name = data.get('name', person.name)
+    person.birth_date = data.get('birth_date', person.birth_date)
+    person.description = data.get('description', person.description)
+    person.planet_id = data.get('planet_id', person.planet_id)
+    person.eye_color = data.get('eye_color', person.eye_color)
+    person.hair_color = data.get('hair_color', person.hair_color)
+    db.session.commit()
+    return jsonify(person.serialize()), 200
+    
+
+# Delete a specific person by ID
+@app.route('/people/<int:people_id>', methods=['DELETE'])
+def delete_people(people_id):
+    person = People.query.get(people_id)
+    if not person:
+        raise APIException('Person not found', status_code=404)
+    db.session.delete(person)
+    db.session.commit()
+    return jsonify({'success': True}), 200
+
+
+
+
 #create planet
 @app.route('/planets', methods=['POST'])
 def create_planet():
@@ -214,6 +244,19 @@ def update_planet(planet_id):
     planet.description = data.get('climate', planet.climate)
     db.session.commit()
     return jsonify(planet.serialize()), 200
+
+
+
+# Delete planet
+@app.route('/planets/<int:planet_id>', methods=['DELETE'])
+def delete_planet(planet_id):
+    planet = Planet.query.get(planet_id)
+    if not planet:
+        raise APIException('Planet not found', status_code=404)
+    db.session.delete(planet)
+    db.session.commit()
+    return jsonify({'success': True}), 200
+
 
 
 
